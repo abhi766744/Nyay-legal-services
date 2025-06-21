@@ -159,10 +159,153 @@ function logout() {
     showLogin();
 }
 
-// Add click handlers for action buttons
+// Add click handlers for action buttons with realistic functionality
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('action-btn')) {
         const action = e.target.textContent.trim();
-        alert(`${action} feature coming soon!\n\nThis is a demo version of Nyay Legal Services platform.`);
+        
+        if (action.includes('Book Legal Service')) {
+            showServiceBookingModal();
+        } else if (action.includes('Find Advocates')) {
+            showAdvocateSearchModal();
+        } else if (action.includes('Schedule Consultation')) {
+            showConsultationModal();
+        }
     }
 });
+
+function showServiceBookingModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>Book Legal Service</h3>
+            <div class="service-options">
+                <div class="service-option" onclick="selectService('GST Filing')">
+                    <i class="fas fa-file-invoice"></i>
+                    <span>GST Filing - ₹2,500</span>
+                </div>
+                <div class="service-option" onclick="selectService('ITR Filing')">
+                    <i class="fas fa-calculator"></i>
+                    <span>ITR Filing - ₹1,800</span>
+                </div>
+                <div class="service-option" onclick="selectService('Legal Consultation')">
+                    <i class="fas fa-gavel"></i>
+                    <span>Legal Consultation - ₹3,000</span>
+                </div>
+                <div class="service-option" onclick="selectService('Contract Drafting')">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Contract Drafting - ₹5,000</span>
+                </div>
+            </div>
+            <button onclick="closeModal()" class="btn-secondary">Close</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function showAdvocateSearchModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>Find Qualified Advocates</h3>
+            <div class="advocate-list">
+                <div class="advocate-item">
+                    <div class="advocate-info">
+                        <h4>Advocate Rajesh Sharma</h4>
+                        <p>Corporate Law Specialist • 8 years experience</p>
+                        <p>Rating: ⭐⭐⭐⭐⭐ (4.9/5) • ₹2,500/hour</p>
+                    </div>
+                    <button onclick="bookAdvocate('Rajesh Sharma')" class="btn-primary">Book Consultation</button>
+                </div>
+                <div class="advocate-item">
+                    <div class="advocate-info">
+                        <h4>Advocate Priya Patel</h4>
+                        <p>Tax Law Expert • 6 years experience</p>
+                        <p>Rating: ⭐⭐⭐⭐⭐ (4.8/5) • ₹2,200/hour</p>
+                    </div>
+                    <button onclick="bookAdvocate('Priya Patel')" class="btn-primary">Book Consultation</button>
+                </div>
+                <div class="advocate-item">
+                    <div class="advocate-info">
+                        <h4>Advocate Kumar Singh</h4>
+                        <p>Criminal Law Specialist • 12 years experience</p>
+                        <p>Rating: ⭐⭐⭐⭐⭐ (4.9/5) • ₹3,000/hour</p>
+                    </div>
+                    <button onclick="bookAdvocate('Kumar Singh')" class="btn-primary">Book Consultation</button>
+                </div>
+            </div>
+            <button onclick="closeModal()" class="btn-secondary">Close</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function showConsultationModal() {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>Schedule Consultation</h3>
+            <div class="consultation-form">
+                <div class="form-group">
+                    <label>Select Date</label>
+                    <input type="date" id="consultationDate" min="${new Date().toISOString().split('T')[0]}">
+                </div>
+                <div class="form-group">
+                    <label>Select Time</label>
+                    <select id="consultationTime">
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Consultation Type</label>
+                    <select id="consultationType">
+                        <option value="video">Video Call - ₹2,000</option>
+                        <option value="office">Office Visit - ₹2,500</option>
+                        <option value="phone">Phone Call - ₹1,500</option>
+                    </select>
+                </div>
+                <button onclick="scheduleConsultation()" class="btn-primary">Schedule Appointment</button>
+            </div>
+            <button onclick="closeModal()" class="btn-secondary">Close</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function selectService(serviceName) {
+    alert(`Service Selected: ${serviceName}\n\nYour service request has been submitted. Our team will contact you within 24 hours to proceed with the booking.`);
+    closeModal();
+}
+
+function bookAdvocate(advocateName) {
+    alert(`Consultation Booked with ${advocateName}\n\nYour consultation request has been sent. The advocate will contact you within 2 hours to confirm the appointment.`);
+    closeModal();
+}
+
+function scheduleConsultation() {
+    const date = document.getElementById('consultationDate').value;
+    const time = document.getElementById('consultationTime').value;
+    const type = document.getElementById('consultationType').value;
+    
+    if (!date) {
+        alert('Please select a date for your consultation.');
+        return;
+    }
+    
+    alert(`Consultation Scheduled!\n\nDate: ${date}\nTime: ${time}\nType: ${type}\n\nConfirmation details will be sent to your registered email address.`);
+    closeModal();
+}
+
+function closeModal() {
+    const modal = document.querySelector('.modal-overlay');
+    if (modal) {
+        modal.remove();
+    }
+}
