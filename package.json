@@ -1,0 +1,9 @@
+{
+  "name": "nyay-legal-services",
+  "version": "1.0.0",
+  "description": "Professional legal services platform - GitHub Pages deployment",
+  "homepage": "https://yourusername.github.io/nyay-legal-services",
+  "scripts": {
+    "deploy": "echo 'Deploy to GitHub Pages'"
+  }
+}
